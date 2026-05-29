@@ -46,7 +46,7 @@ function AdminCategories() {
       image_url = supabase.storage.from("media").getPublicUrl(path).data.publicUrl;
     }
 
-    const payload = { ...rest, image_url };
+    const payload: any = { ...rest, image_url };
     const { error } = id
       ? await supabase.from("categories").update(payload).eq("id", id)
       : await supabase.from("categories").insert(payload);

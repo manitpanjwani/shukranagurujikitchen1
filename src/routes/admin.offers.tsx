@@ -31,8 +31,8 @@ function AdminOffers() {
     const { id, ...rest } = editing;
     if (!rest.title) return toast.error("Title required");
     const { error } = id
-      ? await supabase.from("offers").update(rest).eq("id", id)
-      : await supabase.from("offers").insert(rest);
+      ? await supabase.from("offers").update(rest as any).eq("id", id)
+      : await supabase.from("offers").insert(rest as any);
     if (error) return toast.error(error.message);
     toast.success("Saved");
     setEditing(null);

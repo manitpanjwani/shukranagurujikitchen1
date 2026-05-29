@@ -31,8 +31,8 @@ function AdminFaqs() {
     const { id, ...rest } = editing;
     if (!rest.question || !rest.answer) return toast.error("Question and answer required");
     const { error } = id
-      ? await supabase.from("faqs").update(rest).eq("id", id)
-      : await supabase.from("faqs").insert(rest);
+      ? await supabase.from("faqs").update(rest as any).eq("id", id)
+      : await supabase.from("faqs").insert(rest as any);
     if (error) return toast.error(error.message);
     toast.success("Saved");
     setEditing(null);
