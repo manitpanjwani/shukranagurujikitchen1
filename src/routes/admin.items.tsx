@@ -67,7 +67,8 @@ function AdminItems() {
       image_url = supabase.storage.from("media").getPublicUrl(path).data.publicUrl;
     }
 
-    const payload = { ...rest, image_url, updated_at: new Date().toISOString() };
+    const { category, ...clean } = rest as any;
+    const payload: any = { ...clean, image_url, updated_at: new Date().toISOString() };
     const { error } = id
       ? await supabase.from("menu_items").update(payload).eq("id", id)
       : await supabase.from("menu_items").insert(payload);
