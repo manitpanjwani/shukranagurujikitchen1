@@ -26,7 +26,7 @@ function ContactPage() {
       return;
     }
     setSending(true);
-    const { error } = await supabase.from("contact_messages").insert(form);
+    const { error } = await supabase.from("contact_messages").insert(form as any);
     setSending(false);
     if (error) {
       toast.error("Couldn't send — try again");
