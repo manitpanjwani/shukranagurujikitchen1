@@ -16,7 +16,12 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as AdminOffersRouteImport } from './routes/admin.offers'
+import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminItemsRouteImport } from './routes/admin.items'
+import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
+import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 
 const MenuRoute = MenuRouteImport.update({
   id: '/menu',
@@ -53,9 +58,34 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
   path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminOffersRoute = AdminOffersRouteImport.update({
+  id: '/offers',
+  path: '/offers',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMessagesRoute = AdminMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminItemsRoute = AdminItemsRouteImport.update({
+  id: '/items',
+  path: '/items',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFaqsRoute = AdminFaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -65,7 +95,12 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/items': typeof AdminItemsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/offers': typeof AdminOffersRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -74,7 +109,12 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/items': typeof AdminItemsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/offers': typeof AdminOffersRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -85,7 +125,12 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRoute
+  '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/items': typeof AdminItemsRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/offers': typeof AdminOffersRoute
   '/product/$slug': typeof ProductSlugRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -97,7 +142,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/menu'
+    | '/admin/categories'
+    | '/admin/faqs'
+    | '/admin/items'
     | '/admin/login'
+    | '/admin/messages'
+    | '/admin/offers'
     | '/product/$slug'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -106,7 +156,12 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/menu'
+    | '/admin/categories'
+    | '/admin/faqs'
+    | '/admin/items'
     | '/admin/login'
+    | '/admin/messages'
+    | '/admin/offers'
     | '/product/$slug'
     | '/admin'
   id:
@@ -116,7 +171,12 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/menu'
+    | '/admin/categories'
+    | '/admin/faqs'
+    | '/admin/items'
     | '/admin/login'
+    | '/admin/messages'
+    | '/admin/offers'
     | '/product/$slug'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -181,6 +241,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/offers': {
+      id: '/admin/offers'
+      path: '/offers'
+      fullPath: '/admin/offers'
+      preLoaderRoute: typeof AdminOffersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/messages': {
+      id: '/admin/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
@@ -188,16 +262,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/items': {
+      id: '/admin/items'
+      path: '/items'
+      fullPath: '/admin/items'
+      preLoaderRoute: typeof AdminItemsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/faqs': {
+      id: '/admin/faqs'
+      path: '/faqs'
+      fullPath: '/admin/faqs'
+      preLoaderRoute: typeof AdminFaqsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminCategoriesRoute: typeof AdminCategoriesRoute
+  AdminFaqsRoute: typeof AdminFaqsRoute
+  AdminItemsRoute: typeof AdminItemsRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminMessagesRoute: typeof AdminMessagesRoute
+  AdminOffersRoute: typeof AdminOffersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCategoriesRoute: AdminCategoriesRoute,
+  AdminFaqsRoute: AdminFaqsRoute,
+  AdminItemsRoute: AdminItemsRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminMessagesRoute: AdminMessagesRoute,
+  AdminOffersRoute: AdminOffersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
