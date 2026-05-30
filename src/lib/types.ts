@@ -49,3 +49,13 @@ export type ContactMessage = {
   message: string;
   created_at: string;
 };
+
+export type Banner = {
+  id: string;
+  title: string | null;
+  subtitle: string | null;
+  desktop_url: string | null;
+  mobile_url: string | null;
+  active: boolean;
+  sort_order: number;
+};
