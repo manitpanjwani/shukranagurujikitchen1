@@ -1,18 +1,22 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Phone, MapPin, Mail } from "lucide-react";
+import centerMark from "@/assets/center-mark.png";
 
 export function Footer() {
   return (
     <footer className="bg-foreground text-background mt-24">
       <div className="container-wide py-16 grid md:grid-cols-4 gap-10">
         <div>
+          <img
+            src={centerMark}
+            alt="Shukrana Guruji Kitchen"
+            className="size-16 object-contain mb-3 invert-0 brightness-110"
+          />
           <div className="font-display text-2xl">
-            Shukrana <span className="text-primary">Guruji</span>
+            Shukrana <span className="text-primary italic">Guruji</span>
           </div>
-          <div className="text-[10px] tracking-[0.3em] uppercase opacity-70">Kitchen</div>
-          <p className="mt-4 text-sm opacity-80 max-w-xs">
-            Premium multi-cuisine cloud kitchen. Slow-cooked, soulfully served — delivered hot
-            across Pune.
+          <p className="mt-3 text-sm opacity-80 max-w-xs">
+            Premium multi-cuisine kitchen. Delivered hot across Pune.
           </p>
         </div>
 
@@ -47,9 +51,8 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-background/10">
-        <div className="container-wide py-5 text-xs opacity-70 flex flex-wrap justify-between gap-3">
-          <span>© {new Date().getFullYear()} Shukrana Guruji Kitchen. All rights reserved.</span>
-          <Link to="/admin/login" className="hover:text-primary">Admin</Link>
+        <div className="container-wide py-5 text-xs opacity-70 text-center">
+          © {new Date().getFullYear()} Shukrana Guruji Kitchen. All rights reserved.
         </div>
       </div>
     </footer>

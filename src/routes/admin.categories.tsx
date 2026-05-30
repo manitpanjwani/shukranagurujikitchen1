@@ -72,10 +72,11 @@ function AdminCategories() {
         <h1 className="font-display text-4xl">Categories</h1>
         <button
           onClick={() => setEditing({ ...empty })}
-          className="bg-primary text-primary-foreground rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"
+          className="bg-primary/15 hover:bg-primary/25 text-primary border border-primary/40 rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2 backdrop-blur-sm transition"
         >
           <Plus className="size-4" /> Add category
         </button>
+
       </div>
 
       <div className="mt-6 bg-card border rounded-2xl divide-y">

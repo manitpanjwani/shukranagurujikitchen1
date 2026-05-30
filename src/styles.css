@@ -7,12 +7,12 @@
 /*
  * Shukrana Guruji Kitchen design system
  * Warm cream background, charcoal text, signature orange accent.
- * Elegant serif for display, clean sans for body.
+ * Fraunces (display) for editorial headings, Outfit (sans) for body.
  */
 
 @theme inline {
-  --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Fraunces", "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Outfit", "Inter", system-ui, sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -50,7 +50,6 @@
 :root {
   --radius: 0.875rem;
 
-  /* Cream background, charcoal text */
   --background: oklch(0.985 0.012 85);
   --foreground: oklch(0.22 0.025 50);
 
@@ -59,7 +58,6 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.22 0.025 50);
 
-  /* Signature warm orange */
   --primary: oklch(0.685 0.175 45);
   --primary-foreground: oklch(0.99 0 0);
 
@@ -132,7 +130,8 @@
 
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
+    font-weight: 500;
   }
 }
 
@@ -142,4 +141,44 @@
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
+
+  /* Vertical text reveal for rotating placeholders */
+  @keyframes vertRollIn {
+    0%   { transform: translateY(110%); opacity: 0; }
+    20%  { transform: translateY(0);    opacity: 1; }
+    80%  { transform: translateY(0);    opacity: 1; }
+    100% { transform: translateY(-110%); opacity: 0; }
+  }
+  .anim-vert-roll {
+    animation: vertRollIn 2.6s ease-in-out;
+  }
+
+  /* Slow circular rotation behind "Why us" */
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .anim-spin-slow {
+    animation: spinSlow 40s linear infinite;
+  }
+
+  /* Marquee for flashcards */
+  @keyframes marqueeX {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .anim-marquee {
+    animation: marqueeX 28s linear infinite;
+  }
+
+  /* Cart drawer slide */
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+  .anim-slide-up { animation: slideUp 0.32s ease-out; }
+
+  /* Hide scrollbar */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }

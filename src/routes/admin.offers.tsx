@@ -52,7 +52,7 @@ function AdminOffers() {
     <div>
       <div className="flex items-center justify-between">
         <h1 className="font-display text-4xl">Offers</h1>
-        <button onClick={() => setEditing({ ...empty })} className="bg-primary text-primary-foreground rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2">
+        <button onClick={() => setEditing({ ...empty })} className="bg-primary/15 hover:bg-primary/25 text-primary border border-primary/40 backdrop-blur-sm rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2 transition">
           <Plus className="size-4" /> Add offer
         </button>
       </div>
