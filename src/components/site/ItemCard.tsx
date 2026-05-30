@@ -86,10 +86,11 @@ export function ItemCard({ item }: { item: MenuItem }) {
               image_url: item.image_url,
             })
           }
-          className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-5 py-2 rounded-full shadow-card disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/90 transition"
+          className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-destructive/15 hover:bg-destructive/25 text-destructive border border-destructive/40 backdrop-blur-sm text-xs font-bold uppercase tracking-wider px-5 py-2 rounded-full shadow-card disabled:opacity-50 disabled:cursor-not-allowed transition"
         >
           ADD
         </button>
+
       </div>
     </div>
   );
