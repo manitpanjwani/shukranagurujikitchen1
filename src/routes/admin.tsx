@@ -8,11 +8,12 @@ import {
   HelpCircle,
   Inbox,
   LogOut,
-  ExternalLink,
+  ImageIcon,
 } from "lucide-react";
 import { useIsAdmin } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import centerMark from "@/assets/center-mark.png";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/admin")({
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/admin/banners", label: "Banners", icon: ImageIcon },
   { to: "/admin/items", label: "Menu items", icon: UtensilsCrossed },
   { to: "/admin/categories", label: "Categories", icon: Tag },
   { to: "/admin/offers", label: "Offers", icon: Ticket },
@@ -50,11 +52,14 @@ function AdminLayout() {
   return (
     <div className="min-h-screen flex bg-secondary/40">
       <aside className="w-64 bg-foreground text-background flex flex-col">
-        <div className="p-6 border-b border-background/10">
-          <div className="font-display text-2xl">
-            Shukrana <span className="text-primary">Guruji</span>
+        <div className="p-6 border-b border-background/10 flex items-center gap-3">
+          <img src={centerMark} alt="" className="size-10 object-contain" />
+          <div>
+            <div className="font-display text-xl">
+              Shukrana <span className="text-primary italic">Guruji</span>
+            </div>
+            <div className="text-[10px] tracking-[0.3em] uppercase opacity-70">CMS</div>
           </div>
-          <div className="text-[10px] tracking-[0.3em] uppercase opacity-70">CMS</div>
         </div>
         <nav className="flex-1 p-3 space-y-1">
           {NAV.map((n) => {
@@ -73,13 +78,7 @@ function AdminLayout() {
             );
           })}
         </nav>
-        <div className="p-3 border-t border-background/10 space-y-1">
-          <Link
-            to="/"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm hover:bg-background/10"
-          >
-            <ExternalLink className="size-4" /> View site
-          </Link>
+        <div className="p-3 border-t border-background/10">
           <button
             onClick={async () => {
               await supabase.auth.signOut();
