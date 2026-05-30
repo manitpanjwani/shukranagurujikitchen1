@@ -48,7 +48,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md bg-background/85 border-b border-border/60">
       {/* MOBILE: nav left · logo center · cart right */}
-      <div className="md:hidden flex items-center justify-between h-16 px-4">
+      <div className="md:hidden relative flex items-center justify-between h-16 px-4">
         <button
           onClick={() => setOpen((o) => !o)}
           className="p-2 -ml-2 text-foreground"
