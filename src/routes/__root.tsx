@@ -70,16 +70,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Shukrana Guruji Kitchen — Slow-cooked. Soulfully served." },
+      { title: "Shukrana Guruji Kitchen — BEST FOOD IN PUNE CITY" },
       {
         name: "description",
         content:
           "Premium multi-cuisine cloud kitchen in Pune. Thalis, biryani, North Indian, Chinese & more — delivered hot to Kharadi, Viman Nagar, Wagholi and Hadapsar.",
       },
-      { property: "og:title", content: "Shukrana Guruji Kitchen" },
-      { property: "og:description", content: "Slow-cooked. Soulfully served." },
+      { property: "og:title", content: "Shukrana Guruji Kitchen — BEST FOOD IN PUNE CITY" },
+      { property: "og:description", content: "Shukrana Guruji Kitchen is Pune's beloved cloud kitchen serving heartfelt, home-style Indian dishes made with love and fresh ingredients. From flavorful curries" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Shukrana Guruji Kitchen — BEST FOOD IN PUNE CITY" },
+      { name: "description", content: "Shukrana Guruji Kitchen is Pune's beloved cloud kitchen serving heartfelt, home-style Indian dishes made with love and fresh ingredients. From flavorful curries" },
+      { name: "twitter:description", content: "Shukrana Guruji Kitchen is Pune's beloved cloud kitchen serving heartfelt, home-style Indian dishes made with love and fresh ingredients. From flavorful curries" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/sKBBvNNsPSMKt0ivE1TbYHI0Rtm1/social-images/social-1780218984453-C1A83B91-BD96-4550-B149-6074BDFEF3DA.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/sKBBvNNsPSMKt0ivE1TbYHI0Rtm1/social-images/social-1780218984453-C1A83B91-BD96-4550-B149-6074BDFEF3DA.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
