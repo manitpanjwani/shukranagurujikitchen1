@@ -23,14 +23,16 @@ export function BottomNav({ onCartClick }: { onCartClick: () => void }) {
           const active = "to" in it && it.to === path;
           const Icon = it.icon;
           const inner = (
-            <div className={cn("relative flex flex-col items-center justify-center gap-0.5 transition-colors", active ? "text-primary" : "text-foreground/70")}>
-              <Icon className={cn("size-6", active && "stroke-[2.4]")} />
+            <div className={cn("flex flex-col items-center justify-center gap-0.5 transition-colors", active ? "text-primary" : "text-foreground/70")}>
+              <span className="relative inline-flex">
+                <Icon className={cn("size-6", active && "stroke-[2.4]")} />
+                {"badge" in it && it.badge > 0 && (
+                  <span className="absolute -top-1.5 -right-2 bg-primary text-primary-foreground rounded-full text-[10px] min-w-[18px] h-[18px] px-1 flex items-center justify-center font-semibold leading-none">
+                    {it.badge}
+                  </span>
+                )}
+              </span>
               <span className="text-[11px] font-medium">{it.label}</span>
-              {"badge" in it && it.badge > 0 && (
-                <span className="absolute top-1 right-[28%] bg-primary text-primary-foreground rounded-full text-[10px] min-w-4 h-4 px-1 flex items-center justify-center font-semibold">
-                  {it.badge}
-                </span>
-              )}
             </div>
           );
           if ("onClick" in it) {

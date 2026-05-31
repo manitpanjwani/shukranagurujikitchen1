@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Leaf, ShieldCheck, Truck, Wallet, Sparkles, ChevronRight, Search } from "lucide-react";
+import { ArrowRight, Leaf, ShieldCheck, Truck, Wallet, Sparkles, ChevronRight, Search, BadgePercent } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { ItemCard } from "@/components/site/ItemCard";
 import { supabase } from "@/integrations/supabase/client";
@@ -324,7 +324,7 @@ function Offers() {
             <div className="absolute top-4 right-4 text-[10px] uppercase tracking-wider bg-foreground text-background px-2.5 py-1 rounded-full">
               Limited time
             </div>
-            <Sparkles className="size-7 text-primary" />
+            <BadgePercent className="size-7 text-primary" />
             <h3 className="font-display text-3xl mt-4">{o.title}</h3>
             <p className="text-muted-foreground mt-2">{o.subtitle}</p>
             {o.code && (
