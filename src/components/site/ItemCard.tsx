@@ -1,9 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { Star } from "lucide-react";
-import { addToCart } from "@/lib/cart";
+import { Star, Minus, Plus } from "lucide-react";
+import { useState } from "react";
+import { addToCart, updateQty, useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { MenuItem } from "@/lib/types";
+
+const FIRST_ADD_KEY = "sgk-first-add-done";
 
 function VegBadge({ veg }: { veg: boolean }) {
   return (
@@ -14,17 +17,59 @@ function VegBadge({ veg }: { veg: boolean }) {
       )}
       aria-label={veg ? "Veg" : "Non-veg"}
     >
-      <span
-        className={cn(
-          "size-1.5 rounded-full",
-          veg ? "bg-veg" : "bg-nonveg",
-        )}
-      />
+      <span className={cn("size-1.5 rounded-full", veg ? "bg-veg" : "bg-nonveg")} />
+    </span>
+  );
+}
+
+const CONFETTI = ["#e87722", "#f6c453", "#3aa856", "#e23744", "#7b5cff", "#28b6f6"];
+
+function Confetti() {
+  return (
+    <span className="anim-confetti pointer-events-none absolute inset-0">
+      {CONFETTI.map((c, i) => {
+        const angle = (i / CONFETTI.length) * Math.PI * 2;
+        const tx = Math.cos(angle) * 14;
+        const ty = Math.sin(angle) * 14;
+        return (
+          <span
+            key={i}
+            style={{
+              background: c,
+              ["--tx" as any]: `${tx}px`,
+              ["--ty" as any]: `${ty}px`,
+              animationDelay: `${i * 20}ms`,
+            }}
+          />
+        );
+      })}
     </span>
   );
 }
 
 export function ItemCard({ item }: { item: MenuItem }) {
+  const cart = useCart();
+  const inCart = cart.find((i) => i.id === item.id);
+  const qty = inCart?.qty ?? 0;
+
+  const [celebrate, setCelebrate] = useState(false);
+
+  const handleAdd = () => {
+    const isFirstEver =
+      typeof window !== "undefined" && !localStorage.getItem(FIRST_ADD_KEY);
+    addToCart({
+      id: item.id,
+      name: item.name,
+      price: Number(item.price),
+      image_url: item.image_url,
+    });
+    if (isFirstEver) {
+      localStorage.setItem(FIRST_ADD_KEY, "1");
+      setCelebrate(true);
+      setTimeout(() => setCelebrate(false), 900);
+    }
+  };
+
   return (
     <div className="group relative bg-card rounded-2xl border border-border/60 shadow-soft hover:shadow-card transition-all overflow-hidden flex">
       <div className="flex-1 p-5 pr-3 flex flex-col">
@@ -76,21 +121,42 @@ export function ItemCard({ item }: { item: MenuItem }) {
             </span>
           </div>
         )}
-        <button
-          disabled={!item.in_stock}
-          onClick={() =>
-            addToCart({
-              id: item.id,
-              name: item.name,
-              price: Number(item.price),
-              image_url: item.image_url,
-            })
-          }
-          className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-destructive/15 hover:bg-destructive/25 text-destructive border border-destructive/40 backdrop-blur-sm text-xs font-bold uppercase tracking-wider px-5 py-2 rounded-full shadow-card disabled:opacity-50 disabled:cursor-not-allowed transition"
-        >
-          ADD
-        </button>
 
+        {qty === 0 ? (
+          <button
+            disabled={!item.in_stock}
+            onClick={handleAdd}
+            className={cn(
+              "absolute -bottom-3 left-1/2 -translate-x-1/2 bg-destructive/15 hover:bg-destructive/25 text-destructive border border-destructive/40 backdrop-blur-sm text-xs font-bold uppercase tracking-wider px-6 py-2 rounded-full shadow-card disabled:opacity-50 disabled:cursor-not-allowed transition",
+              celebrate && "anim-celebrate",
+            )}
+          >
+            ADD
+            {celebrate && <Confetti />}
+          </button>
+        ) : (
+          <div
+            className="anim-stepper-in absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-destructive/15 border border-destructive/40 backdrop-blur-sm rounded-full shadow-card px-1.5 py-1"
+          >
+            <button
+              onClick={() => updateQty(item.id, qty - 1)}
+              className="size-7 rounded-full bg-background/80 hover:bg-background text-destructive flex items-center justify-center transition active:scale-90"
+              aria-label="Decrease"
+            >
+              <Minus className="size-3.5" />
+            </button>
+            <span className="min-w-6 text-center text-sm font-bold text-destructive tabular-nums">
+              {qty}
+            </span>
+            <button
+              onClick={() => updateQty(item.id, qty + 1)}
+              className="size-7 rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90 flex items-center justify-center transition active:scale-90"
+              aria-label="Increase"
+            >
+              <Plus className="size-3.5" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

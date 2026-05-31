@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useCart } from "@/lib/cart";
 import { cn } from "@/lib/utils";
 import centerMark from "@/assets/center-mark.png";
+import headerLogo from "@/assets/header-logo.png";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -57,7 +58,7 @@ export function Header({ onCartClick }: { onCartClick: () => void }) {
           <NavIcon open={open} />
         </button>
         <Link to="/" className="absolute left-1/2 -translate-x-1/2">
-          <img src={centerMark} alt="Shukrana Guruji Kitchen" className="size-11 object-contain" />
+          <img src={headerLogo} alt="Shukrana Guruji Kitchen" className="h-11 w-auto object-contain" />
         </Link>
         <button
           onClick={onCartClick}
