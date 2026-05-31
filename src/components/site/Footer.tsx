@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Phone, MapPin, Mail } from "lucide-react";
-import centerMark from "@/assets/center-mark.png";
+import logo from "@/assets/logo.png";
 
 export function Footer() {
   return (
@@ -8,13 +8,10 @@ export function Footer() {
       <div className="container-wide py-16 grid md:grid-cols-4 gap-10">
         <div>
           <img
-            src={centerMark}
+            src={logo}
             alt="Shukrana Guruji Kitchen"
-            className="size-16 object-contain mb-3 invert-0 brightness-110"
+            className="h-16 w-auto object-contain mb-3 bg-background/95 rounded-lg p-2"
           />
-          <div className="font-display text-2xl">
-            Shukrana <span className="text-primary italic">Guruji</span>
-          </div>
           <p className="mt-3 text-sm opacity-80 max-w-xs">
             Premium multi-cuisine kitchen. Delivered hot across Pune.
           </p>
