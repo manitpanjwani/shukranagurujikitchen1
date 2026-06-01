@@ -34,12 +34,15 @@ function AdminLayout() {
   const nav = useNavigate();
   const router = useRouter();
   const path = router.state.location.pathname;
+  const isLoginRoute = path === "/admin/login";
 
   useEffect(() => {
-    if (loading) return;
-    if (!user) nav({ to: "/admin/login" });
-    else if (!isAdmin) nav({ to: "/admin/login" });
-  }, [loading, user, isAdmin, nav]);
+    if (loading || isLoginRoute) return;
+    if (!user || !isAdmin) nav({ to: "/admin/login" });
+  }, [loading, user, isAdmin, nav, isLoginRoute]);
+
+  // Login page renders without the admin shell / gate
+  if (isLoginRoute) return <Outlet />;
 
   if (loading || !isAdmin) {
     return (
@@ -48,6 +51,7 @@ function AdminLayout() {
       </div>
     );
   }
+
 
   return (
     <div className="min-h-screen flex bg-secondary/40">
