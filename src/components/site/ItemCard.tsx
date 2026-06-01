@@ -127,7 +127,7 @@ export function ItemCard({ item }: { item: MenuItem }) {
             disabled={!item.in_stock}
             onClick={handleAdd}
             className={cn(
-              "absolute -bottom-3 left-1/2 -translate-x-1/2 bg-destructive/15 hover:bg-destructive/25 text-destructive border border-destructive/40 backdrop-blur-sm text-xs font-bold uppercase tracking-wider px-6 py-2 rounded-full shadow-card disabled:opacity-50 disabled:cursor-not-allowed transition",
+              "absolute -bottom-3 left-1/2 -translate-x-1/2 bg-background text-destructive border border-destructive/50 text-[11px] font-semibold tracking-[0.15em] px-5 py-1.5 rounded-md shadow-sm hover:bg-destructive/5 disabled:opacity-50 disabled:cursor-not-allowed transition",
               celebrate && "anim-celebrate",
             )}
           >
@@ -135,28 +135,27 @@ export function ItemCard({ item }: { item: MenuItem }) {
             {celebrate && <Confetti />}
           </button>
         ) : (
-          <div
-            className="anim-stepper-in absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-destructive/15 border border-destructive/40 backdrop-blur-sm rounded-full shadow-card px-1.5 py-1"
-          >
+          <div className="anim-stepper-in absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center bg-background border border-destructive/50 rounded-md shadow-sm overflow-hidden">
             <button
               onClick={() => updateQty(item.id, qty - 1)}
-              className="size-7 rounded-full bg-background/80 hover:bg-background text-destructive flex items-center justify-center transition active:scale-90"
+              className="size-7 text-destructive hover:bg-destructive/5 flex items-center justify-center transition active:scale-90"
               aria-label="Decrease"
             >
               <Minus className="size-3.5" />
             </button>
-            <span className="min-w-6 text-center text-sm font-bold text-destructive tabular-nums">
+            <span className="min-w-7 text-center text-xs font-semibold text-destructive tabular-nums">
               {qty}
             </span>
             <button
               onClick={() => updateQty(item.id, qty + 1)}
-              className="size-7 rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90 flex items-center justify-center transition active:scale-90"
+              className="size-7 text-destructive hover:bg-destructive/5 flex items-center justify-center transition active:scale-90"
               aria-label="Increase"
             >
               <Plus className="size-3.5" />
             </button>
           </div>
         )}
+
       </div>
     </div>
   );
