@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, useNavigate, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import {
   LayoutDashboard,
@@ -32,8 +32,7 @@ const NAV = [
 function AdminLayout() {
   const { isAdmin, loading, user } = useIsAdmin();
   const nav = useNavigate();
-  const router = useRouter();
-  const path = router.state.location.pathname;
+  const path = useLocation({ select: (location) => location.pathname });
   const isLoginRoute = path === "/admin/login";
 
   useEffect(() => {
@@ -44,13 +43,15 @@ function AdminLayout() {
   // Login page renders without the admin shell / gate
   if (isLoginRoute) return <Outlet />;
 
-  if (loading || !isAdmin) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-muted-foreground">
         Checking access…
       </div>
     );
   }
+
+  if (!user || !isAdmin) return null;
 
 
   return (

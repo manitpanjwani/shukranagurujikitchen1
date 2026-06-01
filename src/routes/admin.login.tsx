@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { isAdmin } from "@/lib/auth";
+import { isAdmin, useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/admin/login")({
   component: AdminLogin,
@@ -10,34 +10,44 @@ export const Route = createFileRoute("/admin/login")({
 
 function AdminLogin() {
   const nav = useNavigate();
+  const { user, loading: authLoading } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (authLoading || !user) return;
+    isAdmin(user.id).then((ok) => {
+      if (ok) nav({ to: "/admin", replace: true });
+    });
+  }, [authLoading, user, nav]);
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    if (mode === "signup") {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: `${window.location.origin}/admin` },
-      });
-      setLoading(false);
+    try {
+      if (mode === "signup") {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { emailRedirectTo: `${window.location.origin}/admin` },
+        });
+        if (error) return toast.error(error.message);
+        toast.success("Account created. Ask the owner to promote you to admin, then sign in.");
+        return;
+      }
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) return toast.error(error.message);
-      toast.success("Account created. Ask the owner to promote you to admin, then sign in.");
-      return;
+      const ok = await isAdmin(data.user?.id);
+      if (!ok) {
+        await supabase.auth.signOut();
+        return toast.error("Signed in, but this account is not an admin.");
+      }
+      nav({ to: "/admin", replace: true });
+    } finally {
+      setLoading(false);
     }
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) return toast.error(error.message);
-    const ok = await isAdmin(data.user?.id);
-    if (!ok) {
-      await supabase.auth.signOut();
-      return toast.error("Signed in, but this account is not an admin.");
-    }
-    nav({ to: "/admin" });
   };
 
   return (

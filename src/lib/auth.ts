@@ -7,14 +7,31 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
+      if (!active) return;
       setSession(s);
-    });
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
       setLoading(false);
     });
-    return () => subscription.unsubscribe();
+
+    supabase.auth.getSession()
+      .then(({ data }) => {
+        if (!active) return;
+        setSession(data.session);
+      })
+      .catch(() => {
+        if (!active) return;
+        setSession(null);
+      })
+      .finally(() => {
+        if (!active) return;
+        setLoading(false);
+      });
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   return { session, loading, user: session?.user ?? null };
@@ -38,16 +55,39 @@ export function useIsAdmin() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    if (loading) return;
+    let active = true;
+    if (loading) {
+      setChecking(true);
+      return () => {
+        active = false;
+      };
+    }
     if (!user) {
       setAdmin(false);
       setChecking(false);
-      return;
+      return () => {
+        active = false;
+      };
     }
-    isAdmin(user.id).then((r) => {
-      setAdmin(r);
-      setChecking(false);
-    });
+
+    setChecking(true);
+    isAdmin(user.id)
+      .then((r) => {
+        if (!active) return;
+        setAdmin(r);
+      })
+      .catch(() => {
+        if (!active) return;
+        setAdmin(false);
+      })
+      .finally(() => {
+        if (!active) return;
+        setChecking(false);
+      });
+
+    return () => {
+      active = false;
+    };
   }, [user, loading]);
 
   return { isAdmin: admin, loading: loading || checking, user };
