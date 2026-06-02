@@ -122,42 +122,14 @@ export function ItemCard({ item }: { item: MenuItem }) {
           </div>
         )}
 
-        {/* Fixed-size anchor so ADD ↔ stepper swap stays centered and doesn't jump */}
-        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[104px] h-8 flex items-center justify-center pointer-events-none">
-          {qty === 0 ? (
-            <button
-              disabled={!item.in_stock}
-              onClick={handleAdd}
-              className={cn(
-                "pointer-events-auto relative w-full h-full bg-background text-destructive border border-destructive/50 text-[11px] font-semibold tracking-[0.15em] rounded-md shadow-sm hover:bg-destructive/5 disabled:opacity-50 disabled:cursor-not-allowed transition",
-                celebrate && "anim-celebrate",
-              )}
-            >
-              ADD
-              {celebrate && <Confetti />}
-            </button>
-          ) : (
-            <div className="pointer-events-auto anim-stepper-in flex items-center justify-between w-full h-full bg-background border border-destructive/50 rounded-md shadow-sm overflow-hidden">
-              <button
-                onClick={() => updateQty(item.id, qty - 1)}
-                className="flex-1 h-full text-destructive hover:bg-destructive/5 flex items-center justify-center transition active:scale-90"
-                aria-label="Decrease"
-              >
-                <Minus className="size-3.5" />
-              </button>
-              <span className="min-w-7 text-center text-xs font-semibold text-destructive tabular-nums">
-                {qty}
-              </span>
-              <button
-                onClick={() => updateQty(item.id, qty + 1)}
-                className="flex-1 h-full text-destructive hover:bg-destructive/5 flex items-center justify-center transition active:scale-90"
-                aria-label="Increase"
-              >
-                <Plus className="size-3.5" />
-              </button>
-            </div>
-          )}
-        </div>
+        <AddControl
+          qty={qty}
+          inStock={item.in_stock}
+          onAdd={handleAdd}
+          onInc={() => updateQty(item.id, qty + 1)}
+          onDec={() => updateQty(item.id, qty - 1)}
+          celebrate={celebrate}
+        />
 
       </div>
     </div>
