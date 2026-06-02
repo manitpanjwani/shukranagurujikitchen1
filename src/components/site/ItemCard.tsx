@@ -135,3 +135,81 @@ export function ItemCard({ item }: { item: MenuItem }) {
     </div>
   );
 }
+
+/**
+ * AddControl — minimal pill that morphs between ADD and a − qty + stepper.
+ * Both states share the exact same box (centered, fixed size) so nothing shifts.
+ * We render both stacked and crossfade with opacity, eliminating mount flicker.
+ */
+function AddControl({
+  qty,
+  inStock,
+  onAdd,
+  onInc,
+  onDec,
+  celebrate,
+}: {
+  qty: number;
+  inStock: boolean;
+  onAdd: () => void;
+  onInc: () => void;
+  onDec: () => void;
+  celebrate: boolean;
+}) {
+  const hasQty = qty > 0;
+
+  return (
+    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[104px] h-8">
+      {/* ADD state */}
+      <button
+        type="button"
+        disabled={!inStock || hasQty}
+        onClick={onAdd}
+        aria-hidden={hasQty}
+        tabIndex={hasQty ? -1 : 0}
+        className={cn(
+          "absolute inset-0 w-full h-full rounded-md bg-background text-destructive border border-destructive/50",
+          "text-[11px] font-semibold tracking-[0.15em] shadow-sm transition-opacity duration-150",
+          "hover:bg-destructive/5 disabled:cursor-not-allowed",
+          hasQty ? "opacity-0 pointer-events-none" : "opacity-100",
+          celebrate && "anim-celebrate",
+        )}
+      >
+        ADD
+        {celebrate && <Confetti />}
+      </button>
+
+      {/* Stepper state */}
+      <div
+        aria-hidden={!hasQty}
+        className={cn(
+          "absolute inset-0 flex items-stretch rounded-md bg-background border border-destructive/50 shadow-sm overflow-hidden",
+          "transition-opacity duration-150",
+          hasQty ? "opacity-100" : "opacity-0 pointer-events-none",
+        )}
+      >
+        <button
+          type="button"
+          onClick={onDec}
+          tabIndex={hasQty ? 0 : -1}
+          aria-label="Decrease quantity"
+          className="flex-1 grid place-items-center text-destructive hover:bg-destructive/5 active:scale-95 transition"
+        >
+          <Minus className="size-3.5" />
+        </button>
+        <span className="grid place-items-center min-w-7 text-xs font-semibold text-destructive tabular-nums select-none">
+          {qty}
+        </span>
+        <button
+          type="button"
+          onClick={onInc}
+          tabIndex={hasQty ? 0 : -1}
+          aria-label="Increase quantity"
+          className="flex-1 grid place-items-center text-destructive hover:bg-destructive/5 active:scale-95 transition"
+        >
+          <Plus className="size-3.5" />
+        </button>
+      </div>
+    </div>
+  );
+}
