@@ -2,7 +2,7 @@ name: Deploy static content to Pages
 
 on:
   push:
-    branches: ["main"] # Triggers every time Lovable updates your main branch
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -42,8 +42,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # Points directly to Lovable's native Vite build output folder
+          path: './dist' # This strictly tells GitHub to use Lovable's fresh dist folder
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
